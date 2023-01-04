@@ -1,0 +1,839 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Linear transformer 线性变换 &#8212; math in deep learning</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Notebooks with MyST Markdown" href="markdown-notebooks.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">math in deep learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown-notebooks.html">
+   Notebooks with MyST Markdown
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Linear transformer 线性变换
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/codeflysafe/jupyter-book/master?urlpath=tree/docs/linear_transformer.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/codeflysafe/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/codeflysafe/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flinear_transformer.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/linear_transformer.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   几种常见的线性变换
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mathbb-r-2-theta">
+     <span class="math notranslate nohighlight">
+      \(\mathbb{R}^{2}\)
+     </span>
+     逆旋转
+     <span class="math notranslate nohighlight">
+      \(\theta\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     平移
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     缩放
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     翻转
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     错切
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   基变换
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Linear transformer 线性变换</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   几种常见的线性变换
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mathbb-r-2-theta">
+     <span class="math notranslate nohighlight">
+      \(\mathbb{R}^{2}\)
+     </span>
+     逆旋转
+     <span class="math notranslate nohighlight">
+      \(\theta\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     平移
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     缩放
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     翻转
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     错切
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   基变换
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <hr class="docutils" />
+<p>title: linear transformer
+date: 2022-12-31 22:47:57
+mathjax: true
+tags:</p>
+<ul class="simple">
+<li><p>matrix</p></li>
+<li><p>math</p></li>
+<li><p>linear transformer</p></li>
+</ul>
+<hr class="docutils" />
+<section id="linear-transformer">
+<h1>Linear transformer 线性变换<a class="headerlink" href="#linear-transformer" title="Permalink to this headline">#</a></h1>
+<p>两个特点：</p>
+<ul class="simple">
+<li><p>直线保持不变</p></li>
+<li><p>原点保持不变</p></li>
+</ul>
+<p>主要是保持网格线平行和等距分布</p>
+<p>以 <span class="math notranslate nohighlight">\(p\in \mathbb{R}^2 = (x, y)^T\)</span> 为例：
+$<span class="math notranslate nohighlight">\(
+\begin{equation}
+\begin{aligned}
+p&amp;=x\vec{e_1}+y\vec{e_2} \\\\
+ &amp;= \begin{bmatrix}
+         \vec{e_1} &amp; \vec{e_2}
+      \end{bmatrix} \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix}\\\\
+p^′&amp;=x(transformer_1 )+y(transformer_2 ) \\\\
+&amp;= \begin{bmatrix}
+         \vec{transformer_1} &amp; \vec{transformer_2}
+      \end{bmatrix} \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix}
+\end{aligned}
+\end{equation}
+\)</span><span class="math notranslate nohighlight">\(
+只需要求出变换后的 \)</span>transformer_1<span class="math notranslate nohighlight">\( 和 \)</span>transformer_2$ 即可</p>
+<section id="id1">
+<h2>几种常见的线性变换<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<p>对于常见的线性变换，只需要记住一点：只需要找出变换后的基坐标即可.
+$<span class="math notranslate nohighlight">\(
+  \vec{x} = x_1\vec{e_1} + \cdots + x_n\vec{e_n} = \begin{bmatrix}
+         x_1 \\\\ x_2 \\\\ \dots \\\\ x_n
+      \end{bmatrix}
+\)</span><span class="math notranslate nohighlight">\(
+\)</span>\vec{x}<span class="math notranslate nohighlight">\(代表在基坐标\)</span>\mathbb{R}^{n}<span class="math notranslate nohighlight">\(上的坐标向量
+则有:
+\)</span><span class="math notranslate nohighlight">\(
+\begin{equation}
+   \label{eq_1}
+   \begin{aligned}
+      L(\vec{x}) &amp;= x_iL(\vec{e_1}) + \cdots + x_nL(\vec{e_n})
+   \end{aligned}
+\end{equation}
+\)</span>$</p>
+<p>将<span class="math notranslate nohighlight">\(\eqref{eq_1}\)</span> 带入到 <span class="math notranslate nohighlight">\(\eqref{eq_2}\)</span> 中：
+$<span class="math notranslate nohighlight">\(
+\begin{equation}
+   \label{eq_2}
+   \begin{aligned}
+   A &amp;= \begin{bmatrix}
+     a_{11} &amp; a_{12} &amp; \cdots &amp;a_{1n} \\\\
+     a_{21} &amp; a_{22} &amp; \cdots &amp;a_{2n} \\\\
+             &amp; \ddots &amp; \\\\
+     a_{n1} &amp; a_{n2} &amp; \cdots &amp;a_{nn} 
+      \end{bmatrix} \\\\
+   L(\vec{x}) &amp;= A\vec{x}  \\\\
+   &amp;= \begin{bmatrix}
+     a_{11} &amp; a_{12} &amp; \cdots &amp;a_{1n} \\\\
+     a_{21} &amp; a_{22} &amp; \cdots &amp;a_{2n} \\\\
+             &amp; \ddots &amp; \\\\
+     a_{n1} &amp; a_{n2} &amp; \cdots &amp;a_{nn} 
+      \end{bmatrix} \begin{bmatrix}
+         x_1 \\\\ x_2 \\\\ \dots \\\\ x_n
+      \end{bmatrix} \\\\
+   &amp;= \begin{bmatrix}
+      L(e_1) &amp; L(e_2) &amp; \cdots &amp; L(e_n)
+      \end{bmatrix} \begin{bmatrix}
+         x_1 \\\\ x_2 \\\\ \dots \\\\ x_n
+      \end{bmatrix}
+   \end{aligned}
+\end{equation}
+\)</span><span class="math notranslate nohighlight">\(
+\)</span>A \in \mathbb{R}^{n \times n}<span class="math notranslate nohighlight">\( 是线性变换， \)</span>x \in \mathbb{R}^{n}<span class="math notranslate nohighlight">\(, 则其变换前的基坐标为: 
+\)</span><span class="math notranslate nohighlight">\(
+e = \begin{bmatrix}
+   \vec{e_1}&amp; \vec{e_2}&amp; \cdots &amp; \vec{e_n}
+\end{bmatrix}
+\)</span>$</p>
+<p>则 A 如下所示：
+$<span class="math notranslate nohighlight">\( 
+\begin{equation}
+   \label{eq_3}
+   A = \begin{bmatrix} L(e_1) &amp; L(e_2) &amp; \cdots &amp; L(e_n) \end{bmatrix}
+\end{equation}
+\)</span>$</p>
+<section id="mathbb-r-2-theta">
+<h3><span class="math notranslate nohighlight">\(\mathbb{R}^{2}\)</span> 逆旋转 <span class="math notranslate nohighlight">\(\theta\)</span><a class="headerlink" href="#mathbb-r-2-theta" title="Permalink to this headline">#</a></h3>
+<p>旋转只改变角度，不改变大小, 根据 <span class="math notranslate nohighlight">\(\eqref{eq_3}\)</span> 可得：
+$<span class="math notranslate nohighlight">\(
+ \begin{equation}
+     \label{eq:rotate}
+     \begin{aligned}
+         A = \begin{bmatrix} L(e_1) &amp; L(e_2) \end{bmatrix}
+     \end{aligned}
+ \end{equation}
+\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+ \begin{aligned}
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   \cos{\theta} &amp; -\sin{\theta} &amp; 0 \\
+   \sin{\theta} &amp; \cos{\theta} &amp; 0 \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+ \end{aligned}
+\end{equation}
+\end{split}\]</div>
+<p><img alt="image.png" src="attachment:image.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;text.usetex&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;Helvetica&quot;</span>
+<span class="p">})</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="c1">#绘制从[0,0]到[2,2]的向量</span>
+<span class="n">a</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">a</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\theta$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$A^</span><span class="si">{r}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/linear_transformer_7_0.png" src="_images/linear_transformer_7_0.png" />
+</div>
+</div>
+</section>
+<section id="id2">
+<h3>平移<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<p>假设x、y方向平移的偏移量分别为 dx 和 dy， 则有：
+$<span class="math notranslate nohighlight">\(
+\begin{equation}
+   \begin{aligned}
+   x^{'} &amp;= x + dx \\
+   y^{'} &amp;= y + dy \\
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   1 &amp; 0 &amp; dx \\
+   0 &amp; 1 &amp; dy \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+   \end{aligned}
+\end{equation}
+\)</span>$</p>
+</section>
+<section id="id3">
+<h3>缩放<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+ \begin{aligned}
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   s &amp; 0 &amp; 0 \\
+   0 &amp; t &amp; 0 \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+ \end{aligned}
+\end{equation}
+\end{split}\]</div>
+</section>
+<section id="id4">
+<h3>翻转<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<p>x 轴对称
+$<span class="math notranslate nohighlight">\(
+\begin{equation}
+ \begin{aligned}
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   1 &amp; 0 &amp; 0 \\
+   0 &amp; -1 &amp; 0 \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+ \end{aligned}
+\end{equation}
+\)</span>$</p>
+<p>y 轴对称
+$<span class="math notranslate nohighlight">\(
+\begin{equation}
+ \begin{aligned}
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   -1 &amp; 0 &amp; 0 \\
+   0 &amp; 1 &amp; 0 \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+ \end{aligned}
+\end{equation}
+\)</span>$</p>
+</section>
+<section id="id5">
+<h3>错切<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<p>错切 y 方向</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+ \begin{aligned}
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   1 &amp; 0 &amp; 0 \\
+   s &amp; 1 &amp; 0 \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+ \end{aligned}
+\end{equation}
+\end{split}\]</div>
+<p>错切 x 方向
+$<span class="math notranslate nohighlight">\(
+\begin{equation}
+ \begin{aligned}
+   \begin{bmatrix}
+   x^{'} \\  y^{'} \\ 1 
+   \end{bmatrix} &amp;= \begin{bmatrix}
+   1 &amp; r &amp; 0 \\
+   0 &amp; 1 &amp; 0 \\
+   0 &amp; 0 &amp; 1  
+   \end{bmatrix}\begin{bmatrix}
+   x \\  y \\ 1 
+   \end{bmatrix}
+ \end{aligned}
+\end{equation}
+\)</span>$</p>
+</section>
+</section>
+<section id="id6">
+<h2>基变换<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h2>
+<p>从一个坐标系的变换到另一个坐标系的变换</p>
+<p>一组基是 <span class="math notranslate nohighlight">\(U= [\vec{u_1} ,  \vec{u_2}]\)</span>  另一组为  <span class="math notranslate nohighlight">\(V= [\vec{v_1}, \vec{v_2}]\)</span>
+在对应基下的坐标向量位 <span class="math notranslate nohighlight">\((x, y)^T\)</span> 和 <span class="math notranslate nohighlight">\((a,b)^T\)</span>
+则：
+$<span class="math notranslate nohighlight">\( 
+   \begin{equation}
+      \begin{aligned}
+      x\vec{u_1} +y\vec{u_2} &amp;= a\vec{v_1}+b \vec{v_2} \\\\
+      \begin{bmatrix}
+         \vec{u_1} &amp; \vec{u_2}
+      \end{bmatrix} \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix} &amp;= \begin{bmatrix}
+         \vec{v_1} &amp; \vec{v_2}
+      \end{bmatrix} \begin{bmatrix}
+         a \\\\ b
+      \end{bmatrix} \\\\ 
+      \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix} &amp;= \begin{bmatrix}
+         \vec{u_1} &amp; \vec{u_2}
+      \end{bmatrix}^{-1} \begin{bmatrix}
+         \vec{v_1} &amp; \vec{v_2}
+      \end{bmatrix} \begin{bmatrix}
+         a \\\\ b
+      \end{bmatrix} \\\\
+       &amp;= U^{-1}V  \begin{bmatrix}
+         a \\\\ b
+      \end{bmatrix} \\\\
+      &amp;= S \begin{bmatrix}
+         a \\\\ b
+      \end{bmatrix} \\\\
+      \begin{bmatrix}
+         a \\\\ b
+      \end{bmatrix} &amp;= \begin{bmatrix}
+         \vec{v_1} &amp; \vec{v_2}
+      \end{bmatrix}^{-1} \begin{bmatrix}
+         \vec{u_1} &amp; \vec{u_2}
+      \end{bmatrix} \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix} \\\\
+       &amp;= V^{-1}U  \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix} \\\\
+      &amp;= S^{-1} \begin{bmatrix}
+         x \\\\ y
+      \end{bmatrix} \\\\
+      \end{aligned}
+   \end{equation}
+   \)</span>$</p>
+<p>S 称为 V →U  的转移矩阵 , 特殊情况当 U 为标准基时 S = V</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="markdown-notebooks.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Notebooks with MyST Markdown</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By sjhuang<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
