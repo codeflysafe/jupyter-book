@@ -3,8 +3,14 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
-- file: linear_transformer
+parts:
+- caption: Math
+  chapters:
+  - file: math/intro
+  - file: math/linear_transformer
+
+- caption: Keypoint_Detect
+  chapters:
+  - file: keypoint_detect/heatmap
+    # sections:
+    # - file: keypoint_detect/heatmap
